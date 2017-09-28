@@ -17,23 +17,24 @@ However, it is quite opinionated on the available settings for each menu item. T
 - "Link Relationship (XFN)"
 - "Description"
 
-One might think that these settings are more than enough, but often for our clients we needed additional fields,
-e.g. "data" attributes (useful for click tracking) or "rel" attributes ("noopener", "nofollow"...).
+For our clients we needed additional fields, e.g. "data" attributes (useful for click tracking) or "rel" attributes 
+("noopener", "nofollow"...).
 
-The issue is tha there's **no** filter provided by WordPress to edit provided fields and there's no action hook to allow 
-echoing custom from fields HTML, like happens in many other parts of WP backend.
+Issue is there's **no** filter provided by WordPress to edit the default fields and there's no action hook to allow 
+echoing custom form fields HTML, like happens in many other parts of WP backend.
 
 The only possible customization is the [`"wp_edit_nav_menu_walker"`](https://developer.wordpress.org/reference/hooks/wp_edit_nav_menu_walker/)
 filter hook which allows to return the class name of a custom walker.
 
 To write a custom walker that outputs custom form fields each time a field is needed is annoying, but not a big deal.
 
-But things get worse when that filter is hooked from more than one plugin.
+But things get worse when that filter is hooked by more than one plugin.
 
-Because `"wp_edit_nav_menu_walker"` expects a walker *class name* it is only possible to completely overrides the class 
-name, so if two or more plugins use that filter, only one of them will get its walker class used, the others will do nothing.
+Because `"wp_edit_nav_menu_walker"` expects a walker *class name* it is only possible to completely override the class 
+name, so if two or more plugins use that same filter, only one of them will get its walker class used, the others will 
+do nothing.
 
-This package exists because we needed a way to add more fields that could work if used from more *unrelated* places.
+This package exists because we needed a way to add more fields that could work if used from more plugins.
 
 ---
 
@@ -70,15 +71,15 @@ interface EditField {
 }
 ```
 
-The first method, `name()`, has to return the field name. It is important this name is unique. This will also be used to
-later retrieve the value that is entered via the field.
+The first method, `name()`, has to return the field name, it can be any string, but must be unique.
+This will also be used to later retrieve the value that is entered in the input field.
 
 The second and last method, `field_markup()`, has to return the HTML markup for the field, as it will appear on the UI.
 
-In the HTML markup will very likely be necessary to use the input name, id and current stored value, if any.
+In the HTML markup it will very likely be necessary to use the input name, its id and its current stored value, if any.
 Those information can be obtained via an object of type `Inpsyde\MoreMenuFields\EditFieldValue`. More on this soon.
 
-Very often (if not always) the value users enter in the generated input needs to be sanitized before being saved. 
+Very often (if not always) the value users enter in the generated input field needs to be sanitized before being saved. 
 This is why the package ships another interface `Inpsyde\MoreMenuFields\SanitizedEditField` which looks like this:
 
 ```php
@@ -88,9 +89,9 @@ interface SanitizedEditField extends EditField {
 }
 ```
 
-The interface extends `EditField` and its only method, `sanitize_callback`, can be used to return a callback used to 
-sanitize the users input in the field. It is recommended to implement this interface to create fields and
-only use `EditField` for form fields that don't actually take input, like buttons.
+The interface extends `EditField` and its only method, `sanitize_callback()`, can be used to return a callback used to 
+sanitize the users input. It is recommended to implement this interface to create fields and only use `EditField` for 
+form input fields that don't actually take input, like buttons.
 
 
 ### Field class example
@@ -150,12 +151,12 @@ Quite easy. Even because many of the "hard work" used in the generation of field
 
 ### Adding a field
 
-Just having the field class above will do nothing if the package does not know about it.
+Just having the field class above will do nothing if the package does not know about it, and to make the package aware
+of the class we need to add an instance of it to the array passed by filter hook stored in the constant 
+`Inpsyde\MoreMenuFields\FILTER_FIELDS`.
 
-It can be done via the filter hook stored in the constant `Inpsyde\MoreMenuFields\FILTER_FIELDS`.
-
-That filters passes to hooking callbacks the array of currently added filters, and an instance of `EditFieldValueFactory`:
-an object that can be used to obtain instances of `EditFieldValue` to be used in field classes.
+That filter passes to hooking callbacks the array of currently added filters, and as second argument an instance of 
+`EditFieldValueFactory`: an object that can be used to obtain instances of `EditFieldValue` to be used in field classes.
 
 Let's see an usage example:
 
@@ -176,24 +177,25 @@ add_filter(
 When hooking `Inpsyde\MoreMenuFields\FILTER_FIELDS` the passed `EditMenuFieldValueFactory` is used to obtain an
 instance of `EditFieldValue` that is injected in the field object (nothing more than what shown above).
 
-For that we call the `create()` method on the factory (it is its only method) passing the name of the field, that
-must be the exact same name returned by field object `name()` method.
+To obtain the `EditFieldValue` instance the `create()` method is called on the factory, passing to it the name of the 
+field, that must be the exact same name returned by field object `name()` method.
 
 That's it. The filter right above, plus the class in previous section is really all it takes to print the field
-and save it.
+and also save it.
 
 The benefit of this can be seen when there are add many fields. Moreover, the `Inpsyde\MoreMenuFields\FILTER_FIELDS` 
 filter can be used by many plugins that know nothing about each other and all will work just fine.
 
 
-### Retrieving saved value
+### Retrieving saved values
 
 At some point there will be the need to use the value stored by the added fields.
 
 The package stores them as post meta of the related menu item post. So to retrieve them it is possible to just use
 `get_post_meta()`.
-The only thing needed for it is to know the meta key which is obtained prepending what the field object 
-`name()` method returns with a fixed prefix stored in the `EditFieldValue::KEY_PREFIX` class constant:
+
+The only thing needed for it is to know the meta key, which is generated by the package prepending to the return value
+of field object `name()` method a fixed prefix stored in the `EditFieldValue::KEY_PREFIX` class constant:
 
 ```php
 $no_follow = get_post_meta( $menu_item_id, Inpsyde\MoreMenuFields\EditFieldValue::KEY_PREFIX . 'nofollow', TRUE );
@@ -220,8 +222,8 @@ add_filter( 'nav_menu_link_attributes', function ( array $attributes, $item )
 }
 ```
 
-Where we make use of [`'nav_menu_link_attributes'`](https://developer.wordpress.org/reference/hooks/nav_menu_link_attributes/) 
-to add the `rel="nofollow"` attribute to a menu item if the checkbox we previously added on backend is checked.
+Where  [`'nav_menu_link_attributes'`](https://developer.wordpress.org/reference/hooks/nav_menu_link_attributes/) filter 
+is used to add the `rel="nofollow"` attribute to a menu item if the checkbox we previously added on backend is checked.
 
 
 ### On escaping retrieved value
