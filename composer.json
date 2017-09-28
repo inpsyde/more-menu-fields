@@ -1,0 +1,39 @@
+{
+  "name": "inpsyde/more-menu-fields",
+  "description": "Package to add more fields to WordPress menu edit screen.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Inpsyde GmbH",
+      "email": "hello@inpsyde.com",
+      "homepage": "http://inpsyde.com",
+      "role": "Company"
+    },
+    {
+      "name": "Giuseppe Mazzapica",
+      "email": "g.mazzapica@inpsyde.com",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Inpsyde\\MoreMenuFields\\": "src/"
+    },
+    "files": [
+      "inc/bootstrap.php"
+    ]
+  },
+  "config": {
+    "optimize-autoloader": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
+  }
+}
