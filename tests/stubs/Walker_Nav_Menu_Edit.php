@@ -8,21 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Inpsyde\MoreMenuFields;
-
 /**
  * @package more-menu-fields
  * @license http://opensource.org/licenses/MIT MIT
  */
-interface EditField {
+class Walker_Nav_Menu_Edit {
 
-	/**
-	 * @return string
-	 */
-	public function name(): string;
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-	/**
-	 * @return string
-	 */
-	public function field_markup(): string;
+		$output .= "<li><div id=\"menu-item-settings-{$item->ID}\"><fieldset></fieldset></div>";
+	}
+
 }

@@ -8,7 +8,7 @@
 
 WordPress provides a nice UI for editing navigation menus.
 
-However, it is quite opinionated on the available settings for each menu item. They are:
+However, it is quite opinionated about the available settings for each menu item. They are:
 
 - "Navigation Label"
 - "Title Attribute"
@@ -17,16 +17,15 @@ However, it is quite opinionated on the available settings for each menu item. T
 - "Link Relationship (XFN)"
 - "Description"
 
-For our clients we needed additional fields, e.g. "data" attributes (useful for click tracking) or "rel" attributes 
-("noopener", "nofollow"...).
+For our clients we needed additional fields, e.g. "data" attributes or "rel" attributes ("noopener", "nofollow"...).
 
-Issue is there's **no** filter provided by WordPress to edit the default fields and there's no action hook to allow 
+Issue is WordPress provides **no** filter to edit the default fields and there's also no action hook to allow 
 echoing custom form fields HTML, like happens in many other parts of WP backend.
 
 The only possible customization is the [`"wp_edit_nav_menu_walker"`](https://developer.wordpress.org/reference/hooks/wp_edit_nav_menu_walker/)
 filter hook which allows to return the class name of a custom walker.
 
-To write a custom walker that outputs custom form fields each time a field is needed is annoying, but not a big deal.
+So each time a field is needed  a custom walker needs to be written; annoying, but not a big deal.
 
 But things get worse when that filter is hooked by more than one plugin.
 
