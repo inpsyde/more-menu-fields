@@ -40,7 +40,7 @@ This package exists because we needed a way to add more fields that could work i
 ## Usage
 
 
-### First step
+### First Step
 
 Because the use target of "More Menu Fields" is to be used from plugins, it is not a plugin itself, but a *package*
 that can be required by plugins via Composer.
@@ -56,7 +56,7 @@ Inpsyde\MoreMenuFields\bootstrap();
 There's no need to wrap the call in any hook and if called more than once (by different plugins) nothing bad will happen.
 
 
-### The field interfaces
+### The Field Interfaces
 
 To add more fields it is necessary to create a PHP class for each of them. The class has to implement the interface
 `Inpsyde\MoreMenuFields\EditField` which looks like this:
@@ -93,7 +93,7 @@ sanitize the users input. It is recommended to implement this interface to creat
 form input fields that don't actually take input, like buttons.
 
 
-### Field class example
+### Field Class Example
 
 Nothing is better than an example to see how things work.
 
@@ -148,7 +148,7 @@ Quite easy. Even because many of the "hard work" used in the generation of field
 `EditFieldValue` that the field class receives in constructor. But where does it come from?
 
 
-### Adding a field
+### Adding a Field
 
 Just having the field class above will do nothing if the package does not know about it, and to make the package aware
 of the class we need to add an instance of it to the array passed by filter hook stored in the constant 
@@ -164,9 +164,9 @@ add_filter(
 	Inpsyde\MoreMenuFields\FILTER_FIELDS,
 	function ( array $items, EditMenuFieldValueFactory $value_factory )
 	{
-		$items[] = new My\Plugin\NofollowField( $value_factory->create( 'nofollow' ) );
+		$fields[] = new My\Plugin\NofollowField( $value_factory->create( 'nofollow' ) );
 
-		return $items;
+		return $fields;
 	},
 	10,
 	2
@@ -186,7 +186,7 @@ The benefit of this can be seen when there are add many fields. Moreover, the `I
 filter can be used by many plugins that know nothing about each other and all will work just fine.
 
 
-### Retrieving saved values
+### Retrieving Saved Values
 
 At some point there will be the need to use the value stored by the added fields.
 
@@ -225,7 +225,7 @@ Where  [`'nav_menu_link_attributes'`](https://developer.wordpress.org/reference/
 is used to add the `rel="nofollow"` attribute to a menu item if the checkbox we previously added on backend is checked.
 
 
-### On escaping retrieved value
+### On Escaping Retrieved Value
 
 When retrieving a value via `Inpsyde\MoreMenuFields\field_value()` or via (`get_post_meta()`) the value is *not*
 sanitized with the callback returned via field object `sanitize_callback()` method, which is only called to sanitize
@@ -237,7 +237,7 @@ boolean check, so there's no need to escape, but in case the value is printed to
 
 ---
 
-## About customizer
+## About Customizer
 
 WordPress provides a menu editing UI in the customizer. This package does **not** integrated there.
 
