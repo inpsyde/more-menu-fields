@@ -1,4 +1,4 @@
-# More Menu Fields
+# More Menu Fields [![Latest Stable Version](https://poser.pugx.org/inpsyde/more-menu-fields/v/stable)](https://packagist.org/packages/inpsyde/more-menu-fields) [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges) [![Build Status](https://travis-ci.org/inpsyde/more-menu-fields.svg?branch=master)](http://travis-ci.org/inpsyde/more-menu-fields) [![License](https://poser.pugx.org/inpsyde/more-menu-fields/license)](https://packagist.org/packages/inpsyde/more-menu-fields)
 
 > Package to add more fields to WordPress menu edit screen.
 

@@ -14,6 +14,11 @@
             "name": "Giuseppe Mazzapica",
             "email": "g.mazzapica@inpsyde.com",
             "role": "Developer"
+        },
+        {
+            "name": "Christian Brückner",
+            "email": "c.brueckner@inpsyde.com",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "stable",
