@@ -19,21 +19,12 @@ However, it is quite opinionated about the available settings for each menu item
 
 For our clients we needed additional fields, e.g. "data" attributes or "rel" attributes ("noopener", "nofollow"...).
 
-Issue is WordPress provides **no** filter to edit the default fields and there's also no action hook to allow 
+Issue is WordPress <5.4.0 provides **no** filter to edit the default fields and there's also no action hook to allow 
 echoing custom form fields HTML, like happens in many other parts of WP backend.
 
-The only possible customization is the [`"wp_edit_nav_menu_walker"`](https://developer.wordpress.org/reference/hooks/wp_edit_nav_menu_walker/)
-filter hook which allows to return the class name of a custom walker.
+Since WordPress 5.4.0 there is a new Hook `wp_nav_menu_item_custom_fields` implemented which allows you to filter the current item and add custom fields.
 
-So each time a field is needed  a custom walker needs to be written; annoying, but not a big deal.
-
-But things get worse when that filter is hooked by more than one plugin.
-
-Because `"wp_edit_nav_menu_walker"` expects a walker *class name* it is only possible to completely override the class 
-name, so if two or more plugins use that same filter, only one of them will get its walker class used, the others will 
-do nothing.
-
-This package exists because we needed a way to add more fields that could work if used from more plugins.
+This package exists, because we needed in WordPress <5.4.0 a way to add more fields that could work if used from more plugins. You can still use this library with newer WordPress version to work in an object oriented way on custom navigation items attributes.
 
 ---
 
