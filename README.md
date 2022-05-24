@@ -62,7 +62,7 @@ interface EditField {
 ```
 
 The first method, `name()`, has to return the field name, it can be any string, but must be unique.
-This will also be used to later retrieve the value that is entered in the input field.
+This will also be used later on to retrieve the value that is entered in the input field.
 
 The second and last method, `field_markup()`, has to return the HTML markup for the field, as it will appear on the UI.
 
@@ -136,7 +136,7 @@ class NofollowField implements Inpsyde\MoreMenuFields\SanitizedEditField
 ```
 
 Quite easy. Even because many of the "hard work" used in the generation of field HTML is done by the instance of 
-`EditFieldValue` that the field class receives in constructor. But where does it come from?
+`EditFieldValue` that the field class receives in the constructor. But where does it come from?
 
 
 ### Adding a Field
@@ -165,7 +165,7 @@ add_filter(
 ```
 
 When hooking `Inpsyde\MoreMenuFields\FILTER_FIELDS` the passed `EditMenuFieldValueFactory` is used to obtain an
-instance of `EditFieldValue` that is injected in the field object (nothing more than what shown above).
+instance of `EditFieldValue` that is injected in the field object (nothing more than what is shown above).
 
 To obtain the `EditFieldValue` instance the `create()` method is called on the factory, passing to it the name of the 
 field, that must be the exact same name returned by field object `name()` method.
@@ -173,7 +173,7 @@ field, that must be the exact same name returned by field object `name()` method
 That's it. The filter right above, plus the class in previous section is really all it takes to print the field
 and also save it.
 
-The benefit of this can be seen when there are add many fields. Moreover, the `Inpsyde\MoreMenuFields\FILTER_FIELDS` 
+The benefit of this can be seen when there are many fields added. Moreover, the `Inpsyde\MoreMenuFields\FILTER_FIELDS` 
 filter can be used by many plugins that know nothing about each other and all will work just fine.
 
 
@@ -230,13 +230,13 @@ boolean check, so there's no need to escape, but in case the value is printed to
 
 ## About Customizer
 
-WordPress provides a menu editing UI in the customizer. This package does **not** integrated there.
+WordPress provides a menu editing UI in the customizer. This package is **not** integrated there.
 
 The reason is that many times the fields we add via this package are nothing "visual" (take as example the "nofollow"
 example in this readme), so having a live preview to edit them is not really helpful, so we (and our clients) never
 felt the need to have these fields in the customizer UI.
 
-To who is interested in such feature, we can say "maybe later", but PR are always open ;)
+To whoever is interested in such a feature, we can say "maybe later", but PRs are always open ;)
 
 ---
 
