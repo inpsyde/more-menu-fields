@@ -22,9 +22,8 @@ For our clients we needed additional fields, e.g. "data" attributes or "rel" att
 Issue is WordPress <5.4.0 provides **no** filter to edit the default fields and there's also no action hook to allow 
 echoing custom form fields HTML, like happens in many other parts of WP backend.
 
-Since WordPress 5.4.0 there is a new Hook `wp_nav_menu_item_custom_fields` implemented which allows you to filter the current item and add custom fields.
-
-This package exists, because we needed in WordPress <5.4.0 a way to add more fields that could work if used from more plugins. You can still use this library with newer WordPress version to work in an object oriented way on custom navigation items attributes.
+**⚠️ Since WordPress 5.4.0 there is a new Hook `wp_nav_menu_item_custom_fields` implemented which allows you to filter the current item and add custom fields.
+This package exists, because we needed in WordPress <5.4.0 a way to add more fields that could work if used from more plugins. You can still use this library with newer WordPress version to work in an object oriented way on custom navigation items attributes.**
 
 ---
 
